@@ -114,18 +114,18 @@ elif app_mode == "About":
     2. test (33 images)
     3. validation (17,572 images)
     """)
-    st.markdown("[Dataset Used In Training](https://streamlit.io/)")
-    st.markdown("[Code Github Repository](https://streamlit.io/)")
+    st.markdown("[Dataset Used In Training](https://www.kaggle.com/datasets/vipoooool/new-plant-diseases-dataset)")
+    st.markdown("[Code Github Repository](https://github.com/BenRyan0/ITBAN3_Plant_Desease_Detection.git)")
 
     st.header("Our Team")
     
     team_members = [
         {"name": "Joanna Angel C. Lugasan", "image": "image/team/Angel.png"},
-        {"name": "Ma. Ella Mae Torrejos ",  "image": "image/team/Angel.png"},
+        {"name": "Ma. Ella Mae Torrejos ",  "image": "image/team/ella.png"},
         {"name": "Mark John C. Granada",  "image": "image/team/Mark.png"},
         {"name": "Bonjovie A. Belbelone",  "image": "image/team/Bon.png"},
         {"name": "Ryan James B. Baya",  "image": "image/team/Baya.png"},
-        {"name": "Ben Ryan A. Rinconada", "image": "image/team/Ben.png"},
+        {"name": "Ben Ryan A. Rinconada", "image": "image/team/Ben_.png"},
     ]
 
     cols = st.columns(3)  # Adjust the number of columns based on the number of team members

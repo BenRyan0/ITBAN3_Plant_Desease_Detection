@@ -3,6 +3,7 @@ import tensorflow as tf
 import numpy as np
 import base64
 
+
 # Read the image file for the favicon
 file_path = "image/logo_icon.png"  # Replace with your image file path
 with open(file_path, "rb") as f:
@@ -18,9 +19,17 @@ st.set_page_config(
     layout="centered",  # Layout can be "centered" or "wide"
 )
 
+
 # Inject custom CSS
 st.markdown("""
     <style>
+   @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+            
+    
+    *{
+        font-family: "Poppins", sans-serif;
+    }
      .stButton>button {
         background-color: #02A367;
         border: 2px solid #02A367;
@@ -49,20 +58,9 @@ st.markdown("""
     
     }
   
-            
-   .stFileUpload button {
-        background-color: #4CAF50 !important; /* Green background */
-        color: white !important;
-        padding: 10px !important;
-        border-radius: 5px !important;
-        font-weight: bold !important;
-        cursor: pointer !important;
-    }
-    .stFileUpload button:hover {
-        background-color: #45a049 !important; /* Darker green background on hover */
-    }
     </style>
     """, unsafe_allow_html=True)
+
 
 # TensorFlow Model Prediction
 def model_prediction(test_image):
@@ -76,7 +74,7 @@ def model_prediction(test_image):
 # Sidebar
 image_path = "image/logo_full.png"
 st.sidebar.image(image_path, width=200)
-app_mode = st.sidebar.selectbox("Choose an option:", ["Home", "About", "Disease Recognition"], label_visibility="hidden")
+app_mode = st.sidebar.selectbox("Nav links", ["Home", "About", "Disease Recognition"])
 
 # Main Page
 if app_mode == "Home":
@@ -116,8 +114,8 @@ elif app_mode == "About":
     2. test (33 images)
     3. validation (17,572 images)
     """)
-    st.markdown("[Dataset Used In Training](https://www.kaggle.com/datasets/vipoooool/new-plant-diseases-dataset)")
-    st.markdown("[Code Github Repository](https://github.com/BenRyan0/ITBAN3_Plant_Desease_Detection.git)")
+    st.markdown("[Dataset Used In Training](https://streamlit.io/)")
+    st.markdown("[Code Github Repository](https://streamlit.io/)")
 
     st.header("Our Team")
     
@@ -141,7 +139,7 @@ elif app_mode == "About":
 
 elif app_mode == "Disease Recognition":
     st.header("Disease Recognition")
-    test_image = st.file_uploader("Choose an Image:" )
+    test_image = st.file_uploader("Choose an Image:")
     if st.button("Show Image", type="primary"):
         if test_image is not None:
             st.image(test_image, use_column_width=True)

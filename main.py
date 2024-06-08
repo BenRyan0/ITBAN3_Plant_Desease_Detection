@@ -128,7 +128,7 @@ elif app_mode == "About":
     3. validation (17,572 images)
     """)
     st.markdown("[Dataset Used In Training](https://www.kaggle.com/datasets/vipoooool/new-plant-diseases-dataset)")
-    st.markdown("[Code Github Repository](https://streamlit.io/)")
+    st.markdown("[Code Github Repository](https://github.com/BenRyan0/ITBAN3_Plant_Desease_Detection.git)")
 
     st.header("Our Team")
     

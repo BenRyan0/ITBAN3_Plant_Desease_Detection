@@ -3,8 +3,6 @@ import tensorflow as tf
 import numpy as np
 import base64
 
-
-
 # Read the image file for the favicon
 file_path = "image/logo_icon.png"  # Replace with your image file path
 with open(file_path, "rb") as f:
@@ -19,7 +17,6 @@ st.set_page_config(
     page_icon=f"data:image/png;base64,{encoded_img}",  # Favicon as base64 encoded image
     layout="centered",  # Layout can be "centered" or "wide"
 )
-
 
 # Inject custom CSS
 st.markdown("""
@@ -74,7 +71,6 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-
 # TensorFlow Model Prediction
 def model_prediction(test_image):
     model = tf.keras.models.load_model("trained_plant_disease_model_IT3A.h5")
@@ -87,7 +83,7 @@ def model_prediction(test_image):
 # Sidebar
 image_path = "image/logo_full.png"
 st.sidebar.image(image_path, width=200)
-app_mode = st.sidebar.selectbox("", ["Home", "About", "Disease Recognition"])
+app_mode = st.sidebar.selectbox("Choose an option:", ["Home", "About", "Disease Recognition"], label_visibility="hidden")
 
 # Main Page
 if app_mode == "Home":

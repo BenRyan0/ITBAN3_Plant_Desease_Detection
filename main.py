@@ -3,7 +3,6 @@ import tensorflow as tf
 import numpy as np
 import base64
 
-
 # Read the image file for the favicon
 file_path = "image/logo_icon.png"  # Replace with your image file path
 with open(file_path, "rb") as f:
@@ -18,7 +17,6 @@ st.set_page_config(
     page_icon=f"data:image/png;base64,{encoded_img}",  # Favicon as base64 encoded image
     layout="centered",  # Layout can be "centered" or "wide"
 )
-
 
 # Inject custom CSS
 st.markdown("""
@@ -61,15 +59,18 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-
 # TensorFlow Model Prediction
-def model_prediction(test_image):
+def model_prediction(test_image, top_k=3):
     model = tf.keras.models.load_model("trained_plant_disease_model_IT3A.h5")
     image = tf.keras.preprocessing.image.load_img(test_image, target_size=(128, 128))
     input_arr = tf.keras.preprocessing.image.img_to_array(image)
     input_arr = np.array([input_arr])  # Convert single image to batch
-    predictions = model.predict(input_arr)
-    return np.argmax(predictions)  # Return index of max element
+    predictions = model.predict(input_arr)[0]
+    
+    top_indices = predictions.argsort()[-top_k:][::-1]
+    top_predictions = [(i, predictions[i]) for i in top_indices]
+    
+    return top_predictions
 
 # Sidebar
 image_path = "image/logo_full.png"
@@ -120,12 +121,12 @@ elif app_mode == "About":
     st.header("Our Team")
     
     team_members = [
-        {"name": "Joanna Angel C. Lugasan", "image": "image/team/Angel.png"},
-        {"name": "Ma. Ella Mae Torrejos ",  "image": "image/team/ella.png"},
-        {"name": "Mark John C. Granada",  "image": "image/team/Mark.png"},
-        {"name": "Bonjovie A. Belbelone",  "image": "image/team/Bon.png"},
-        {"name": "Ryan James B. Baya",  "image": "image/team/Baya.png"},
-        {"name": "Ben Ryan A. Rinconada", "image": "image/team/Ben_.png"},
+        {"name": "Joanna Angel C. Lugasan", "image": "image/team/Angel.png","profile_link": ""},
+        {"name": "Ma. Ella Mae Torrejos ",  "image": "image/team/ella.png","profile_link": ""},
+        {"name": "Mark John C. Granada",  "image": "image/team/Mark.png","profile_link": ""},
+        {"name": "Bonjovie A. Belbelone",  "image": "image/team/Bon.png","profile_link": ""},
+        {"name": "Ryan James B. Baya",  "image": "image/team/Baya.png","profile_link": ""},
+        {"name": "Ben Ryan A. Rinconada", "image": "image/team/Ben_.png","profile_link": ""},
     ]
 
     cols = st.columns(3)  # Adjust the number of columns based on the number of team members
@@ -134,6 +135,7 @@ elif app_mode == "About":
         with cols[idx % 3]:  # Loop through the columns
             st.image(member["image"], width=200)
             st.subheader(member["name"])
+            st.markdown(member["profile_link"])
             st.divider()
         
 
@@ -148,7 +150,7 @@ elif app_mode == "Disease Recognition":
     if st.button("Predict",  type="primary"):
         if test_image is not None:
             with st.spinner('Predicting...'):
-                result_index = model_prediction(test_image)
+                top_predictions = model_prediction(test_image)
                 class_name = ['Apple___Apple_scab', 'Apple___Black_rot', 'Apple___Cedar_apple_rust', 'Apple___healthy',
                               'Blueberry___healthy', 'Cherry_(including_sour)___Powdery_mildew', 
                               'Cherry_(including_sour)___healthy', 'Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot', 
@@ -163,6 +165,7 @@ elif app_mode == "Disease Recognition":
                               'Tomato___Septoria_leaf_spot', 'Tomato___Spider_mites Two-spotted_spider_mite', 
                               'Tomato___Target_Spot', 'Tomato___Tomato_Yellow_Leaf_Curl_Virus', 'Tomato___Tomato_mosaic_virus',
                               'Tomato___healthy']
-            st.success(f"Model is Predicting it's a {class_name[result_index]}")
+                for index, confidence in top_predictions:
+                    st.success(f"Model is {confidence*100:.2f}% confident that it is {class_name[index]}")
         else:
             st.warning("Please upload an image before clicking 'Predict'.")
